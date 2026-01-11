@@ -56,11 +56,14 @@ SaiAdmin 是一个基于 [Webman](https://www.workerman.net/webman) 的高性能
   <li>
     <a href="https://saithink.top" target="_blank">主页 / Home page</a>
   </li>
+  <li>
+    <a href="https://saithink.top/documents/v6/" target="_blank">文档 / Document</a>
+  </li>
 </ul>
 
 
 <h1>演示地址</h1>
-<p>演示地址： <a href="http://v6.saithink.top">http://v6.saithink.top</a></p>
+<p>演示地址： <a href="http://v6.saithink.top" target="_blank">http://v6.saithink.top</a></p>
 <p>演示账号：admin</p>
 <p>演示密码：123456</p>
 
