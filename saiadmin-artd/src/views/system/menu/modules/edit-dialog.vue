@@ -201,7 +201,7 @@
     parent_id: [{ required: true, message: '请选择上级菜单', trigger: 'change' }],
     name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
     path: [{ required: true, message: '请输入路由地址', trigger: 'blur' }],
-    code: [{ required: true, message: '请输入部门编码', trigger: 'blur' }],
+    code: [{ required: true, message: '请输入组件名称', trigger: 'blur' }],
     slug: [{ required: true, message: '请输入权限标识', trigger: 'blur' }],
     link_url: [{ required: true, message: '请输入外链地址', trigger: 'blur' }]
   })
