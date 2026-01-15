@@ -1,0 +1,16 @@
+{
+  "name": "npm-install-test",
+  "admin_name": "saiadmin",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite serve --mode development",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tailwind": "tailwind-config-viewer -o -c tailwind.config.cjs"
+  },
+  "dependencies": {
+    "vue": "^3.4.19"
+  }
+}
