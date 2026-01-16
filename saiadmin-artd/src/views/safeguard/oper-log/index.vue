@@ -59,6 +59,7 @@
 <script setup lang="ts">
   import { useTable } from '@/hooks/core/useTable'
   import { useSaiAdmin } from '@/composables/useSaiAdmin'
+  import { ElMessageBox } from 'element-plus'
   import api from '@/api/safeguard/operLog'
   import TableSearch from './modules/table-search.vue'
 
