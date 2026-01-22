@@ -271,6 +271,7 @@
     try {
       const formData = new FormData()
       formData.append('file', file)
+      formData.append('category_id', searchForm.value.category_id || '1')
 
       await uploadImage(formData)
       ElMessage.success('上传成功')
