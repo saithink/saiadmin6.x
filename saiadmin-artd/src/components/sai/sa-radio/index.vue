@@ -9,6 +9,9 @@
   >
     <!-- 模式1: 按钮样式 -->
     <template v-if="type === 'button'">
+      <el-radio-button v-if="allowNull" :value="nullValue" :label="nullLabel">
+        {{ nullLabel }}
+      </el-radio-button>
       <el-radio-button
         v-for="(item, index) in options"
         :key="index"
@@ -22,6 +25,9 @@
 
     <!-- 模式2: 普通/边框样式 -->
     <template v-else>
+      <el-radio v-if="allowNull" :value="nullValue" :label="nullLabel" :border="type === 'border'">
+        {{ nullLabel }}
+      </el-radio>
       <el-radio
         v-for="(item, index) in options"
         :key="index"
@@ -49,6 +55,9 @@
     size?: 'large' | 'default' | 'small'
     fill?: string
     textColor?: string
+    allowNull?: boolean
+    nullValue?: string | number
+    nullLabel?: string
     /**
      * 强制转换字典值的类型
      * 可选值: 'number' | 'string'
@@ -63,6 +72,9 @@
     size: 'default',
     fill: '',
     textColor: '',
+    allowNull: false,
+    nullValue: '',
+    nullLabel: '全部',
     valueType: 'number' // 默认不转换
   })
 
