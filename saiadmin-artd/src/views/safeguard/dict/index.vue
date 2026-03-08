@@ -130,8 +130,8 @@
             :pagination="dictPagination"
             highlight-current-row
             @selection-change="handleSelectionChange"
-            @pagination:size-change="handleSizeChange"
-            @pagination:current-change="handleCurrentChange"
+            @pagination:size-change="handleDictSizeChange"
+            @pagination:current-change="handleDictCurrentChange"
           >
             <!-- 基础列 -->
             <template #label="{ row }">
@@ -302,6 +302,8 @@
     columns: dictColumns,
     getData: getDictData,
     pagination: dictPagination,
+    handleSizeChange: handleDictSizeChange,
+    handleCurrentChange: handleDictCurrentChange,
     searchParams
   } = useTable({
     core: {
