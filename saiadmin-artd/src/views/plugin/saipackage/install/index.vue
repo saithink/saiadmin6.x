@@ -680,7 +680,7 @@
   }
 
   const handleBuy = () => {
-    window.open('https://saas.saithink.top/store', '_blank')
+    window.open('https://saas.saithink.top/apps', '_blank')
   }
 
   const showPurchasedApps = async () => {
@@ -697,7 +697,7 @@
   }
 
   const viewDocs = (app: PurchasedApp) => {
-    window.open(`https://saas.saithink.top/store/docs-${app.app_id}`, '_blank')
+    window.open(`https://saas.saithink.top/docs/${app.appname}`, '_blank')
   }
 
   const showVersions = async (app: PurchasedApp) => {
