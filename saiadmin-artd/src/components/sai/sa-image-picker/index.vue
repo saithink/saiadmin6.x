@@ -53,22 +53,25 @@
       </div>
     </div>
 
-    <!-- 使用独立的图片选择弹窗组件 -->
-    <SaImageDialog
-      v-model:visible="dialogVisible"
-      :multiple="multiple"
-      :limit="limit"
-      :initial-urls="modelValue"
-      @confirm="onDialogConfirm"
-    />
+    <!-- 使用 Teleport 组件 避免穿透问题 -->
+    <Teleport to="body">
+      <!-- 使用独立的图片选择弹窗组件 -->
+      <SaImageDialog
+        v-model:visible="dialogVisible"
+        :multiple="multiple"
+        :limit="limit"
+        :initial-urls="modelValue"
+        @confirm="onDialogConfirm"
+      />
 
-    <!-- 图片预览 -->
-    <el-image-viewer
-      v-if="previewVisible"
-      :url-list="previewList"
-      :initial-index="previewIndex"
-      @close="closePreview"
-    />
+      <!-- 图片预览 -->
+      <el-image-viewer
+        v-if="previewVisible"
+        :url-list="previewList"
+        :initial-index="previewIndex"
+        @close="closePreview"
+      />
+    </Teleport>
   </div>
 </template>
 
