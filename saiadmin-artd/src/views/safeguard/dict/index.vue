@@ -18,12 +18,14 @@
             <SaButton v-permission="'core:dict:edit'" type="error" @click="deleteTypeDialog" />
           </ElSpace>
           <ArtTable
+            ref="typeTableRef"
             rowKey="id"
             :loading="loading"
             :data="typeData"
             :columns="typeColumns"
             :pagination="typePagination"
             highlight-current-row
+            @row-click="handleRowClick"
             @pagination:size-change="handleSizeChange"
             @pagination:current-change="handleCurrentChange"
           >
@@ -209,6 +211,7 @@
     name: '',
     code: ''
   })
+  const typeTableRef = ref()
 
   /** 修改字典类型 */
   const updateTypeDialog = () => {
@@ -243,12 +246,20 @@
     getDictData()
   }
 
+  /** 行点击切换 */
+  const handleRowClick = (row: any) => {
+    handleTypeChange(row.id, row)
+  }
+
   /** 刷新数据 */
   const refreshTypeData = () => {
     selectedId.value = 0
     selectedRow.value = {}
     getTypeData()
     getDictData()
+    nextTick(() => {
+      typeTableRef.value?.elTableRef?.setCurrentRow(null)
+    })
   }
 
   // 字典类型数据
