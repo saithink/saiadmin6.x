@@ -61,6 +61,7 @@ export interface StoreUser {
 export interface PurchasedApp {
   id: number
   app_id: number
+  appname: string
   title: string
   logo: string
   version: string
