@@ -18,12 +18,14 @@
             <SaButton v-permission="'core:config:edit'" type="error" @click="deleteConfigData" />
           </ElSpace>
           <ArtTable
+            ref="groupTableRef"
             rowKey="id"
             :loading="loading"
             :data="groupData"
             :columns="groupColumns"
             :pagination="groupPagination"
             highlight-current-row
+            @row-click="handleRowClick"
             @pagination:size-change="handleSizeChange"
             @pagination:current-change="handleCurrentChange"
           >
@@ -183,6 +185,7 @@
 </template>
 
 <script setup lang="ts">
+  import { ref, nextTick } from 'vue'
   import { useTable } from '@/hooks/core/useTable'
   import { useSaiAdmin } from '@/composables/useSaiAdmin'
   import { Search } from '@element-plus/icons-vue'
@@ -199,6 +202,9 @@
     selectedRow.value = {}
     formArray.value = []
     getGroupData()
+    nextTick(() => {
+      groupTableRef.value?.elTableRef?.setCurrentRow(null)
+    })
   }
 
   // 修改配置
@@ -233,6 +239,7 @@
     name: '',
     code: ''
   })
+  const groupTableRef = ref()
 
   // 配置搜索
   const handleConfigSearch = () => {
@@ -255,6 +262,11 @@
     selectedRow.value = row
     searchForm.value.group_id = val
     getConfigData()
+  }
+
+  /** 行点击切换 */
+  const handleRowClick = (row: any) => {
+    handleGroupChange(row.id, row)
   }
 
   const getConfigData = () => {
