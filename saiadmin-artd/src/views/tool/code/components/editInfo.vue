@@ -114,15 +114,10 @@
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :md="8" :xl="8">
-                <el-form-item
-                  label="分组包名"
-                  prop="package_name"
-                  label-width="100px"
-                  :rules="[{ required: true, message: '分组包名必填' }]"
-                >
+                <el-form-item label="分组包名" prop="package_name" label-width="100px">
                   <el-input v-model="form.package_name" placeholder="请输入分组包名" clearable />
                   <div class="text-xs text-gray-400 mt-1">
-                    生成的文件放在分组包名目录下，功能模块分组
+                    可留空，生成的文件放在分组包名目录下，功能模块分组；留空则直接生成在控制器等目录下
                   </div>
                 </el-form-item>
               </el-col>
