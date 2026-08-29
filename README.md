@@ -19,6 +19,7 @@ SaiAdmin 是一个基于 [Webman](https://www.workerman.net/webman) 的高性能
 
 - **🚀 高性能** - 基于 Webman 常驻内存框架，性能优异
 - **🔐 完整权限系统** - RBAC 权限模型，支持用户、角色、部门、岗位管理
+- **⚡ MySql + PostgreSQL** - 支持 MySql 和 PostgreSQL，安装的时候自由选择
 - **📝 代码生成器** - 一键生成 CRUD 代码，提升开发效率
 - **⚡ 双 ORM 支持** - 同时支持 ThinkORM 和 Eloquent ORM
 - **🔧 插件化架构** - 支持插件扩展，便于功能模块化
