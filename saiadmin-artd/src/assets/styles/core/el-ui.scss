@@ -121,7 +121,6 @@ html.dark .el-card {
   border-radius: 100px !important;
   border-radius: calc(var(--custom-radius) / 1.2 + 2px) !important;
   overflow: hidden;
-  will-change: transform, opacity; // 开启 GPU 硬件加速，提升动画流畅度
 }
 
 .el-dialog__header {
@@ -131,7 +130,7 @@ html.dark .el-card {
 }
 
 .el-dialog__body {
-  padding: 25px 0 !important;
+  padding: 10px 0 !important;
   position: relative; // 为了兼容 el-pagination 样式，需要设置 relative，不然会影响 el-pagination 的样式，比如 el-pagination__jump--small 会被影响，导致 el-pagination__jump--small 按钮无法点击，详见 URL_ADDRESS.com/element-plus/element-plus/issues/5684#issuecomment-1176299275;
 }
 
@@ -362,66 +361,6 @@ html.dark .el-card {
   }
 }
 
-.login-out-dialog {
-  padding: 30px 20px !important;
-  border-radius: 10px !important;
-}
-
-// 修改 dialog 动画
-.dialog-fade-enter-active {
-  .el-dialog:not(.is-draggable) {
-    animation: dialog-open 0.25s cubic-bezier(0.32, 0.14, 0.15, 0.86);
-
-    // 修复 el-dialog 动画后宽度不自适应问题
-    .el-select__selected-item {
-      display: inline-block;
-    }
-  }
-}
-
-.dialog-fade-leave-active {
-  animation: fade-out 0.18s linear;
-
-  .el-dialog:not(.is-draggable) {
-    animation: dialog-close 0.18s cubic-bezier(0.32, 0.14, 0.15, 0.86);
-  }
-}
-
-@keyframes dialog-open {
-  0% {
-    opacity: 0;
-    transform: scale(0.9) translate3d(0, 0, 0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1) translate3d(0, 0, 0);
-  }
-}
-
-@keyframes dialog-close {
-  0% {
-    opacity: 1;
-    transform: scale(1) translate3d(0, 0, 0);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(0.95) translate3d(0, 0, 0);
-  }
-}
-
-// 遮罩层动画
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
 // 修改 el-select 样式
 .el-select__popper:not(.el-tree-select__popper) {
   .el-select-dropdown__list {
@@ -499,6 +438,48 @@ html.dark .el-card {
 }
 
 .dark {
+  .el-button--default {
+    --el-button-text-color: var(--theme-color);
+    --el-button-bg-color: var(--theme-color-plain-bg);
+    --el-button-border-color: var(--theme-color-plain-border);
+    --el-button-hover-text-color: #fff;
+    --el-button-hover-bg-color: var(--theme-color);
+    --el-button-hover-border-color: var(--theme-color);
+    --el-button-active-text-color: #fff;
+    --el-button-active-bg-color: var(--theme-color-active);
+    --el-button-active-border-color: var(--theme-color-active);
+    --el-button-disabled-text-color: var(--theme-color-disabled);
+    --el-button-disabled-bg-color: rgba(255, 255, 255, 0.04);
+    --el-button-disabled-border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .el-button--primary {
+    --el-button-text-color: #fff;
+    --el-button-bg-color: var(--theme-color);
+    --el-button-border-color: var(--theme-color);
+    --el-button-hover-text-color: #fff;
+    --el-button-hover-bg-color: var(--theme-color-hover);
+    --el-button-hover-border-color: var(--theme-color-hover);
+    --el-button-active-text-color: #fff;
+    --el-button-active-bg-color: var(--theme-color-active);
+    --el-button-active-border-color: var(--theme-color-active);
+    --el-button-disabled-text-color: rgba(255, 255, 255, 0.68);
+    --el-button-disabled-bg-color: var(--theme-color-disabled);
+    --el-button-disabled-border-color: var(--theme-color-disabled);
+  }
+
+  .el-button--primary.is-plain {
+    --el-button-text-color: var(--theme-color);
+    --el-button-bg-color: var(--theme-color-plain-bg);
+    --el-button-border-color: var(--theme-color-plain-border);
+    --el-button-hover-text-color: #fff;
+    --el-button-hover-bg-color: var(--theme-color);
+    --el-button-hover-border-color: var(--theme-color);
+    --el-button-active-text-color: #fff;
+    --el-button-active-bg-color: var(--theme-color-active);
+    --el-button-active-border-color: var(--theme-color-active);
+  }
+
   .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
     background-color: var(--art-gray-300) !important;
   }
@@ -517,66 +498,4 @@ html.dark .el-card {
   .el-input-number__increase {
     height: calc((var(--el-component-size) / 2)) !important;
   }
-}
-
-// 优化 el-drawer 动画性能
-.el-drawer {
-  will-change: transform, opacity; // 开启 GPU 硬件加速
-
-  // 强制在位移过程中应用 3D 变换
-  &.rtl, &.ltr, &.ttb, &.btt {
-    transform: translate3d(0, 0, 0);
-  }
-
-  .el-drawer__header {
-    margin-bottom: 10px;
-  }
-}
-
-// 提升各滑入滑出动画的过渡性能与流畅度
-.rtl-drawer-in,
-.rtl-drawer-out,
-.ltr-drawer-in,
-.ltr-drawer-out,
-.ttb-drawer-in,
-.ttb-drawer-out,
-.btt-drawer-in,
-.btt-drawer-out {
-  will-change: transform;
-}
-
-// 优化进入动画时间及曲线
-.rtl-drawer-in {
-  animation: rtl-drawer-in 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-.ltr-drawer-in {
-  animation: ltr-drawer-in 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-.ttb-drawer-in {
-  animation: ttb-drawer-in 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-.btt-drawer-in {
-  animation: btt-drawer-in 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-
-// 优化离开动画时间及曲线
-.rtl-drawer-out {
-  animation: rtl-drawer-out 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-.ltr-drawer-out {
-  animation: ltr-drawer-out 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-.ttb-drawer-out {
-  animation: ttb-drawer-out 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-.btt-drawer-out {
-  animation: btt-drawer-out 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-
-// 对齐遮罩层的过渡时间
-.el-drawer-fade-enter-active {
-  animation: el-drawer-fade-in 0.25s linear !important;
-}
-.el-drawer-fade-leave-active {
-  animation: el-drawer-fade-out 0.2s linear !important;
 }
