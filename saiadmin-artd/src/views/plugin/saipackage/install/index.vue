@@ -1,6 +1,6 @@
 <template>
   <div class="art-full-height">
-    <ElCard class="flex flex-col flex-1 min-h-0 art-table-card" shadow="never">
+    <ElCard class="flex flex-col flex-1 min-h-0 art-table-card mt-0!" shadow="never">
       <!-- 提示警告 -->
       <ElAlert type="warning" :closable="false">
         仅支持上传由插件市场下载的zip压缩包进行安装，请您务必确认插件包文件来自官方渠道或经由官方认证的插件作者！
@@ -26,6 +26,8 @@
         </ElButton>
 
         <div class="flex items-center gap-1 ml-auto">
+          <div class="version-title">数据库</div>
+          <div class="version-value">{{ dbType }}</div>
           <div class="version-title">saiadmin版本</div>
           <div class="version-value">{{ version?.saiadmin_version?.describe }}</div>
           <div class="version-title">状态</div>
@@ -100,6 +102,14 @@
               <ElTag v-else type="success">已安装</ElTag>
             </template>
 
+            <!-- 数据库兼容列 -->
+            <template #db="{ row }">
+              <ElTag v-if="row.db_compatible === 0" type="danger">{{ row.db_notes }}</ElTag>
+              <ElTag v-else :type="row.has_migration === 1 ? 'success' : 'info'">
+                {{ row.db_notes }}
+              </ElTag>
+            </template>
+
             <!-- 操作列 -->
             <template #operation="{ row }">
               <ElSpace>
@@ -140,7 +150,7 @@
               v-model="searchForm.keywords"
               placeholder="请输入关键词"
               clearable
-              class="!w-48"
+              class="w-48!"
               @keyup.enter="fetchOnlineApps"
             >
               <template #prefix>
@@ -216,7 +226,7 @@
           </div>
 
           <!-- 分页 -->
-          <div class="flex justify-center mt-4">
+          <div class="flex justify-center my-4">
             <ElPagination
               v-model:current-page="onlinePagination.current"
               v-model:page-size="onlinePagination.size"
@@ -420,6 +430,7 @@
   // ========== 基础状态 ==========
   const activeTab = ref('local')
   const version = ref<VersionInfo>({})
+  const dbType = ref('')
   const loading = ref(false)
   const installFormRef = ref()
   const terminalRef = ref()
@@ -469,6 +480,15 @@
       return
     }
 
+    // 检查数据库兼容性：老版插件只有 MySQL 的 install.sql，PG 下装不了。
+    // 这里只是提前拦一道，后端 install() 里的拦截才是权威
+    if (record.db_compatible === 0) {
+      ElMessage.error(
+        '老版本插件不支持 PostgreSQL：该插件包只提供 MySQL 的 install.sql，没有 db/migrations 迁移文件，请向插件作者索取支持迁移的新版插件包'
+      )
+      return
+    }
+
     try {
       await saipackageApi.installApp({ appName: record.app })
       ElMessage.success('安装成功')
@@ -480,8 +500,9 @@
   }
 
   const handleUninstall = async (record: AppInfo) => {
-    await saipackageApi.uninstallApp({ appName: record.app })
-    ElMessage.success('卸载成功')
+    // 后端可能带回警告（例如 PG 下跳过了老包的 uninstall.sql），原样展示
+    const resp = await saipackageApi.uninstallApp({ appName: record.app })
+    ElMessage.success(typeof resp === 'string' && resp ? resp : '卸载成功')
     getList()
   }
 
@@ -512,6 +533,7 @@
     { prop: 'author', label: '作者', width: 120 },
     { prop: 'version', label: '版本', width: 100 },
     { prop: 'support', label: '框架兼容', width: 120, align: 'center' },
+    { prop: 'db', label: '数据库', width: 200, align: 'center', useSlot: true },
     { prop: 'state', label: '插件状态', width: 100, useSlot: true },
     { prop: 'npm', label: '前端依赖', width: 100, useSlot: true },
     { prop: 'composer', label: '后端依赖', width: 100, useSlot: true },
@@ -524,6 +546,7 @@
       const resp = await saipackageApi.getAppList()
       installList.value = resp?.data || []
       version.value = resp?.version || {}
+      dbType.value = resp?.db_type || ''
     } catch {
       // Error already handled by http utility
     } finally {
@@ -765,7 +788,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 16px;
-    max-height: calc(100vh - 380px);
+    min-height: 400px;
     overflow-y: auto;
   }
 

@@ -18,6 +18,12 @@ export interface AppInfo {
   state: number
   npm_dependent_wait_install?: number
   composer_dependent_wait_install?: number
+  /** 是否为迁移版插件包（有 db/migrations） */
+  has_migration?: number
+  /** 当前数据库能否安装该插件，0 表示不兼容 */
+  db_compatible?: number
+  /** 兼容性说明，直接展示 */
+  db_notes?: string
 }
 
 export interface VersionInfo {
@@ -36,6 +42,8 @@ export interface VersionInfo {
 export interface AppListResponse {
   data: AppInfo[]
   version: VersionInfo
+  /** 当前数据库类型：mysql | pgsql */
+  db_type?: string
 }
 
 export interface StoreApp {
